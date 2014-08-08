@@ -1,6 +1,6 @@
 ---
 author:
-  - 'Jean-Sébastien Pédron <jean-sebastien@yakaz.com>'
+  - 'Jean-SÃ©bastien PÃ©dron <jean-sebastien@yakaz.com>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
 configure_requires:

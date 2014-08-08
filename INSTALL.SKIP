@@ -1,0 +1,9 @@
+# Avoid Subversion control files.
+\B\.svn\b
+
+# Avoid Vim swap files.
+\.swp$
+
+# Avoid Makefiles.
+\bMakefile$
+\bMakefile\.PL$

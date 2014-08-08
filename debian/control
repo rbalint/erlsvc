@@ -1,0 +1,33 @@
+Source: erlsvc
+Section: perl
+Priority: optional
+Build-Depends: debhelper (>= 5),
+ libmodule-install-perl,
+ libexception-class-perl,
+ libfile-sharedir-perl,
+ libyaml-tiny-perl,
+ libexception-class-trycatch-perl,
+ libgetopt-long-descriptive-perl,
+ libclass-inspector-perl,
+ libbsd-resource-perl,
+ libsys-cpu-perl
+Build-Depends-Indep: perl (>= 5.6.10-12)
+Maintainer: Jean-Sébastien Pédron <jean-sebastien@yakaz.com>
+Standards-Version: 3.8.0
+
+Package: erlsvc
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends},
+ erlang-base-hipe,
+ erlang-mnesia,
+ libexception-class-perl,
+ libfile-sharedir-perl,
+ libyaml-tiny-perl,
+ libexception-class-trycatch-perl,
+ libgetopt-long-descriptive-perl,
+ libclass-inspector-perl,
+ libbsd-resource-perl,
+ libsys-cpu-perl,
+ rsync
+Description: CLI to control My service
+ .

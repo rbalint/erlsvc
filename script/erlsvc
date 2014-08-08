@@ -1,0 +1,422 @@
+#!/usr/bin/perl
+# $Id: erlsvc 8543 2011-01-06 14:15:26Z jean.sebastien.pedron $
+
+=head1 NAME
+
+erlsvc - CLI to control My service
+
+=head1 SYNOPSIS
+
+B<erlsvc>
+[B<-C I<config>>]
+[B<-u I<user>>] [B<-g I<group>>]
+[B<-n I<node>>]
+[B<-h I<host>>]
+[B<-c I<cookie>>]
+[B<-r I<release>>]
+[B<-d I<releases_dir>>]
+[B<-E I<erlang_root_dir>>]
+[B<-L I<erlang_libs_dir>>]
+[B<-M I<mods_dir>>]
+[B<-P I<pipe_dir>>]]
+[B<-O I<log_dir>>]]
+[B<-V I<components>>] I<command> [<command arguments>]
+
+B<erlsvc> help [I<command>]
+
+=head1 DESCRIPTION
+
+B<erlsvc> is the command line interface to manage the Erlang nodes
+making My service. This includes bootstrapping a new node, starting and
+stopping it or handling release upgrade.
+
+Technically speaking, it starts a "controller" locally (an Erlang node).
+This node may spawn a process on a running target node to execute the
+command. This way, it's possible to manage a node on a remote host.
+
+You can get a summary of the command line options and a list of
+available commands by issueing the command C<erlsvc help>.  To get a
+help message for a specific command, use C<erlsvc help I<command>>.
+
+=head1 OPTIONS
+
+=over 5
+
+=item B<-C> I<config> or B<--config> I<config>
+
+This specifies the path to a configuration file.  See L</"CONFIGURATION">
+for more informations about the format of this file and the options
+available.
+
+Command line options always override values from the configuration
+file.
+
+By default, B<erlsvc> looks for the following files:
+
+=over
+
+=item 1.
+
+F<$HOME/.config/erlsvc/config-I<node>@I<host>.yaml>
+
+=item 2.
+
+F<$HOME/.config/erlsvc/config-I<node>.yaml>
+
+=item 3.
+
+F<$HOME/.config/erlsvc/config.yaml>
+
+=item 4.
+
+F</etc/wayne/erlsvc-I<node>@I<host>.yaml>
+
+=item 5.
+
+F</etc/wayne/erlsvc-I<node>.yaml>
+
+=item 6.
+
+F</etc/wayne/erlsvc.yaml>
+
+=item 7.
+
+F</etc/default/erlsvc>
+
+=back
+
+=item B<-u> I<user> or B<--user> I<user>
+
+This specifies the user under which the service must run.  The target
+node will first start with the caller's user ID (eg. root) and will drop
+to I<user> before starting the service.
+
+By default, the user is not changed.
+
+=item B<-g> I<group> or B<--group> I<group>
+
+This specified the group under which the service must run.  See the B<-u>
+option above for an explanation.
+
+By default, the gorup is not changed.
+
+=item B<-n> I<node> or B<--node> I<node>
+
+This specifies the name of the target node to start or manage.
+
+The default is "myservice".
+
+=item B<-h> I<host> or B<--host> I<host>
+
+This specifies the hostname of the target node to manage.  The hostname
+must be in a "short" form: only up-to the first dot, not a full
+qualified domain name.
+
+The default is the local hostname.
+
+=item B<-c> I<cookie> or B<--cookie> I<cookie>
+
+This specifies the Erlang cookie to be used for inter-node
+communication.  This cookie is also used as the starting target node's
+cookie.
+
+By default, use whatever default cookie erl(1) would use.
+
+=item B<-r> I<release> or B<--release> I<release>
+
+This specifies the Erlang release to boot when starting the service.
+
+The default is the permanent release.
+
+=item B<-d> I<releases_dir> or B<--releases-dir> I<releases_dir>
+
+This specifies the Erlang releases directory.
+
+The default is the system Erlang releases directory, ie. the "releases"
+directory under the Erlang root directory.
+
+=item B<-E> I<erlang_root_dir> or B<--erlang> I<erlang_root_dir>
+
+This specifies the Erlang root directory.  This is useful when L<erl(1)>
+is not in the PATH or the one in the PATH is not to be used.
+
+By default, L<erl(1)> in the PATH is used.
+
+=item B<-L> I<erlang_libs_dir> or B<--erllibs-path> I<erlang_libs_dir>
+
+This specifies additionnal directories where Erlang application may be
+found.  This option may be specified multiple times to set several paths.
+
+By default, none.
+
+=item B<-M> I<mods_dir> or B<--mods-dir> I<mods_dir>
+
+This specifies the directory where B<erlsvc>'s Erlang modules are.
+
+The default is the B<erlsvc>'s distribution-level shared data
+directory as returned by C<dist_dir('erlsvc')> from L<File::ShareDir>.
+
+=item B<-R> I<pipe_dir> or B<--pipe-dir> I<pipe_dir>
+
+This specifies the directory where L<run_erl(1)> puts the named pipe
+required by L<to_erl(1)>.
+
+The default is F</var/run/wayne>.
+
+=item B<-O> I<log_dir> or B<--log-dir> I<log_dir>
+
+This specifies the directory where L<run_erl(1)> puts its log files,
+such as F<run_erl.log> or F<erlang.log.*>.
+
+The default is F</var/log/wayne>.
+
+=item B<-V> I<component> or B<--verbose> I<component>
+
+This sets the verbosity per component or for all at once.  This option
+may be specified multiple times to enable/disable several components.  To
+specify all components, use C<ALL>.  A component may be prefixed by '!'
+to disable verbosity only for it.
+
+Available components are:
+
+=over
+
+=item * C<APP>
+
+=item * C<ERLENV>
+
+=item * C<ERLNODE>
+
+=item * C<ERLSCRIPT>
+
+=item * C<MNESIA>
+
+=item * C<PROC>
+
+=item * C<REL>
+
+=item * C<SERV>
+
+=back
+
+For instance, to enable verbosity for anything touching the service, use
+C<-V SERV>.  To enable everything but the service's message, use C<-V
+ALL -V !SERV> (note that it may be necessary to escape the '!' character to
+workaround shell interpretation).
+
+=back
+
+=head1 COMMANDS
+
+=head2 Available commands
+
+Here is a list of available commands. Some commands don't have any
+action; they rather provide sub-commands.
+
+=over 5
+
+=item B<bosh4yaws>
+
+This command provides sub-commands to configure the bosh4yaws
+application.
+
+=item B<ejabberd>
+
+This command provides sub-commands to configure the ejabberd
+application.
+
+=item B<ejabberd_client>
+
+This command provides sub-commands to configure the ejabberd_client
+application.
+
+=item B<ephp4yaws>
+
+This command provides sub-commands to configure the ephp4yaws
+application.
+
+=item B<help>
+
+This command display a generic help about B<erlsvc> or a more detailed
+help about a specified command.
+
+=item B<mnesia>
+
+This command provides sub-commands to handle the Mnesia database.
+
+=item B<php>
+
+This command provides sub-commands to handle the PHP interpreter.
+
+=item B<release>
+
+This command provides sub-commands to handle the Erlang releases.
+Especially, it's used during live upgrade.
+
+=item B<restart>
+
+This command restarts the service.
+
+=item B<start>
+
+This command starts the service.
+
+=item B<status>
+
+This command tells if the service is running.
+
+=item B<stop>
+
+This command stops the service.
+
+=item B<target>
+
+This command provides sub-commands to manipulate a target system.
+
+=item B<token_bucket>
+
+This command provides sub-commands to configure the token_bucket
+application.
+
+=item B<yaws>
+
+This command provides sub-commands to configure the yaws application.
+
+=back
+
+=head2 Detailed help about a command
+
+To obtain a more detailed help about a command, use the "help" command:
+
+B<erlsvc> help I<command>
+
+=head1 CONFIGURATION
+
+=head2 Configuration format
+
+A configuration file can be specified using the B<-C> option.  The
+file format conforms to YAML, or more exactly a subset of the YAML
+specification, as documented in L<YAML::Tiny>.  This may still be
+overrident by any command line option.
+
+By default, B<erlsvc> looks for the following files:
+
+=over
+
+=item 1.
+
+F<$HOME/.config/erlsvc/config-I<node>@I<host>.yaml>
+
+=item 2.
+
+F<$HOME/.config/erlsvc/config-I<node>.yaml>
+
+=item 3.
+
+F<$HOME/.config/erlsvc/config.yaml>
+
+=item 4.
+
+F</etc/wayne/erlsvc-I<node>@I<host>.yaml>
+
+=item 5.
+
+F</etc/wayne/erlsvc-I<node>.yaml>
+
+=item 6.
+
+F</etc/wayne/erlsvc.yaml>
+
+=item 7.
+
+F</etc/default/erlsvc>
+
+=back
+
+The expected structure of the YAML document is a hash where the keys
+are the long option names (with "-" replaced by "_") and the value
+are obviously the values for these options.  If an option may be given
+multiple times to specify multiple values, the configuration entry will
+have only one key pointing to a list of values.
+
+=head2 Non-option variables
+
+Beside variables mapping the command line options, B<erlsvc> supports
+the following additional variables :
+
+=over 5
+
+=item erlapp_args
+
+This specifies all the Erlang applications environment variable that
+must be passed on the L<erl(1)> command line.  The structure pointed by
+the key must be a hash where the keys are the application names and the
+values are a hash again, where the keys are the environment variable
+name and the values, the variable's values.
+
+=item extra_flags
+
+This specifies extra command line flags to pass to L<erl(1)>.  The
+structure pointed by the key must a list of strings.
+
+=back
+
+=head2 Examples
+
+Here is a configuration file setting the user and group for the target
+node and enabling all debug messages.  It also shows how to specify
+Mnesia's data directory and how to disable SMP in the Erlang emulator.
+
+ # Set the service identity to wayne:wayne.
+ user: wayne
+ group: wayne
+ 
+ # Be verbose.
+ verbose:
+   - ALL
+
+ # Set Mnesia's directory. Note how the quotes and double-quotes are
+ # used so that Erlang interprets the string correctly.
+ erlapp_args:
+   mnesia:
+     dir: '"/var/db/mnesia"'
+ 
+ extra_flags:
+   - "-smp"
+   - "disable"
+
+=cut
+
+use strict;
+use warnings;
+use utf8;
+
+if ($ENV{'WCTL_SASL_START_PRG'}) {
+    # The script is executed by SASL during a live upgrade requiring an
+    # emulator restart. Because SASL can't take a program with argument,
+    # the real command line is put in the environment.
+
+    # Get the command and clear the environment variable to avoid
+    # infinite loop.
+    my $command = $ENV{'WCTL_SASL_START_PRG'};
+    delete $ENV{'WCTL_SASL_START_PRG'};
+
+    exec $command;
+}
+
+binmode(STDOUT, ":utf8");
+binmode(STDERR, ":utf8");
+
+use ErlSvc::Ctl;
+
+# Run the application code.
+my $app = ErlSvc::Ctl->new();
+my $ret = $app->run();
+$app->uninit();
+
+# If the application terminated with an exception, exit with 1.
+my $exit_code = ($ret) ? 0 : 1;
+eval {
+    $app->log->debug('APP', "Exit with exit code $exit_code\n");
+};
+exit(1) unless ($ret);

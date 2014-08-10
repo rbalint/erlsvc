@@ -277,7 +277,7 @@ sub is_vanilla (;$) {
 
     $release = $self->current unless ($release);
 
-    return $release =~ /^R?\d+[A|B]?$/o;
+    return $release =~ /^R?\d+[A|B]?\d*$/o;
 }
 
 sub upgrade ($;%) {

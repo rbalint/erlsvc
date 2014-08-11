@@ -10,7 +10,8 @@ Build-Depends: debhelper (>= 5),
  libgetopt-long-descriptive-perl,
  libclass-inspector-perl,
  libbsd-resource-perl,
- libsys-cpu-perl
+ libsys-cpu-perl,
+ erlang-base | erlang-base-hipe
 Build-Depends-Indep: perl (>= 5.6.10-12)
 Maintainer: Jean-Sébastien Pédron <jean-sebastien@yakaz.com>
 Standards-Version: 3.8.0

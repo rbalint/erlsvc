@@ -11,7 +11,7 @@ Build-Depends: debhelper (>= 5),
  libclass-inspector-perl,
  libbsd-resource-perl,
  libsys-cpu-perl,
- erlang-base | erlang-base-hipe
+ erlang-dev (>= 1:1.15.b)
 Build-Depends-Indep: perl (>= 5.6.10-12)
 Maintainer: Jean-Sébastien Pédron <jean-sebastien@yakaz.com>
 Standards-Version: 3.8.0
@@ -19,7 +19,8 @@ Standards-Version: 3.8.0
 Package: erlsvc
 Architecture: any
 Depends: ${perl:Depends}, ${misc:Depends},
- erlang-base-hipe,
+ erlang-base-hipe | erlang-base | ${erlang-abi:Depends},
+ ${erlang:Depends},
  erlang-mnesia,
  libexception-class-perl,
  libfile-sharedir-perl,

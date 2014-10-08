@@ -17,7 +17,7 @@ Maintainer: Jean-Sébastien Pédron <jean-sebastien@yakaz.com>
 Standards-Version: 3.8.0
 
 Package: erlsvc
-Architecture: all
+Architecture: any
 Depends: ${perl:Depends}, ${misc:Depends},
  erlang-base-hipe,
  erlang-mnesia,

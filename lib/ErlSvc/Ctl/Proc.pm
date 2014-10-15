@@ -251,12 +251,21 @@ sub _child_run (@) {
             "setrlimit: Raise file descriptors limit to $nofile");
         $ret = setrlimit(RLIMIT_NOFILE, $nofile, $nofile);
         unless ($ret) {
-            $self->_report_warning(
-                "Problem:",
-                "  Failed to raise the file descriptors limit:",
-                "  System reports:",
-                "    $!");
-        }
+	    (my $nowsoft, my $nowhard) = getrlimit(RLIMIT_NOFILE);
+	    $ret = setrlimit(RLIMIT_NOFILE, $nowhard, $nowhard);
+	    if ($ret) {
+		$self->_report_warning(
+		    "Problem:",
+		    "  Failed to raise the file descriptors limit to $nofile.",
+		    "  Raised to $nowhard (hard limit) instead.");
+	    } else {
+		$self->_report_warning(
+		    "Problem:",
+		    "  Failed to raise the file descriptors limit to $nofile:",
+		    "  System reports:",
+		    "    $!");
+	    }
+	}
     }
 
     # We change user and group ID.

@@ -11,6 +11,7 @@ Build-Depends: debhelper (>= 5),
  libclass-inspector-perl,
  libbsd-resource-perl,
  libsys-cpu-perl,
+ libcli-framework-perl,
  erlang-dev (>= 1:1.15.b)
 Build-Depends-Indep: perl (>= 5.6.10-12)
 Maintainer: Jean-Sébastien Pédron <jean-sebastien@yakaz.com>
@@ -30,6 +31,7 @@ Depends: ${perl:Depends}, ${misc:Depends},
  libclass-inspector-perl,
  libbsd-resource-perl,
  libsys-cpu-perl,
+ libcli-framework-perl,
  rsync
 Description: CLI to control My service
  .

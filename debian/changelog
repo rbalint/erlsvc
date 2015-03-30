@@ -1,3 +1,9 @@
+erlsvc (1.01-1) UNRELEASED; urgency=medium
+
+  * Start working on next upload
+
+ -- Balint Reczey <balint@balintreczey.hu>  Mon, 30 Mar 2015 18:48:12 +0200
+
 erlsvc (1.00-1) unstable; urgency=low
 
   * First stable release.

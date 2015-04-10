@@ -33,5 +33,7 @@ Depends: ${perl:Depends}, ${misc:Depends},
  libsys-cpu-perl,
  libcli-framework-perl,
  rsync
-Description: CLI to control My service
- .
+Description: Command line interface for managing Erlang nodes
+ Erlsvc can bootstrap a new Erlang node and then start/stop it. It can
+ even perform a release upgrade.
+

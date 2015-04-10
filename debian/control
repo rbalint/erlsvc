@@ -15,7 +15,7 @@ Build-Depends: debhelper (>= 9),
  erlang-dev (>= 1:1.15.b),
  perl (>= 5.6.10-12)
 Maintainer: Jean-Sébastien Pédron <jean-sebastien@yakaz.com>
-Standards-Version: 3.8.0
+Standards-Version: 3.9.6
 
 Package: erlsvc
 Architecture: any

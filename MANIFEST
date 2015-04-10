@@ -1,9 +1,4 @@
 ChangeLog
-debian/changelog
-debian/compat
-debian/control
-debian/copyright
-debian/rules
 INSTALL.SKIP
 lib/ErlSvc/Ctl.pm
 lib/ErlSvc/Ctl/Command.pm

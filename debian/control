@@ -14,7 +14,7 @@ Build-Depends: debhelper (>= 9),
  libcli-framework-perl,
  erlang-dev (>= 1:1.15.b),
  perl (>= 5.6.10-12)
-Maintainer: Jean-Sébastien Pédron <jean-sebastien@yakaz.com>
+Maintainer: Balint Reczey <balint@balintreczey.hu>
 Standards-Version: 3.9.6
 
 Package: erlsvc

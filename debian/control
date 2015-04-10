@@ -1,7 +1,7 @@
 Source: erlsvc
 Section: perl
 Priority: optional
-Build-Depends: debhelper (>= 5),
+Build-Depends: debhelper (>= 9),
  libmodule-install-perl,
  libexception-class-perl,
  libfile-sharedir-perl,

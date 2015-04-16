@@ -2,3 +2,11 @@
 
 %:
 	dh $@
+
+ERL_FILES_PATH = $(CURDIR)/debian/erlsvc/usr/share/perl5/auto/share/dist/erlsvc/
+ERL_TARGET_PATH = $(CURDIR)/debian/erlsvc/usr/lib/erlang/lib/erlsvc-1.0/
+override_dh_install:
+	dh_install
+	mv $(ERL_FILES_PATH)/*.beam $(ERL_TARGET_PATH)/ebin/
+	mv $(ERL_FILES_PATH)/*.hrl $(ERL_TARGET_PATH)/include/
+	mv $(ERL_FILES_PATH)/*.erl $(ERL_TARGET_PATH)/src/

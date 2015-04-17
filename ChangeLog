@@ -1,3 +1,16 @@
+2015-04-17  Balint Reczey <balint@balintreczey.hu>
+
+	1.02 - Minor fixes:
+
+	Update to use CLI::Framework 0.05 API
+	Replace README template with an empty README
+	Remove packaging directory
+	Use packaged CLI::Framework
+	Raise file descriptors' soft limit to hard limit when setting it to hardcoded value fails
+	Allow numbers at the end of the Erlang release, like R16B03
+	New Erlang release is "17" instead of "R17B"
+	Fix UTF-8 encoding in META.yml
+
 2010-03-14  Jean-Sébastien Pédron  <jean-sebastien@yakaz.com>
 
 	First stable release of "erlsvc".

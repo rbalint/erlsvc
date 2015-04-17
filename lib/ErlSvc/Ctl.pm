@@ -34,7 +34,7 @@ use strict;
 use warnings;
 use utf8;
 
-our $VERSION = '1.00';
+our $VERSION = '1.02';
 
 use Cwd qw(abs_path);
 use File::ShareDir qw(dist_dir);

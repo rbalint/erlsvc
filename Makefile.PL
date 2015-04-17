@@ -18,6 +18,7 @@ requires       'Exception::Class::TryCatch' => 0;
 requires       'Getopt::Long::Descriptive' => 0;
 requires       'YAML::Tiny' => 0;
 requires       'File::ShareDir' => 0;
+requires       'CLI::Framework' => 0.05;
 
 # Specific dependencies
 install_script 'script/erlsvc';

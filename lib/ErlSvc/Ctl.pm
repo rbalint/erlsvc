@@ -158,7 +158,6 @@ sub option_spec {
 }
 
 sub command_map {
-    {
         'help'            => 'ErlSvc::Ctl::Command::help',
         'mnesia'          => 'ErlSvc::Ctl::Command::mnesia',
         'release'         => 'ErlSvc::Ctl::Command::release',
@@ -170,14 +169,11 @@ sub command_map {
         'stop'            => 'ErlSvc::Ctl::Command::stop',
         'target'          => 'ErlSvc::Ctl::Command::target',
         'version'         => 'ErlSvc::Ctl::Command::version',
-    };
 }
 
 sub command_alias {
-    (
         '--help'    => 'help',
         '--version' => 'version'
-    );
 }
 
 sub usage_text {
@@ -187,7 +183,7 @@ sub usage_text {
     my $usage = progname()." $VERSION - Start and control $service_name\n";
     $usage .= "\nUsage:\n".$self->get_default_usage();
 
-    my $commands = $self->command_map();
+    my $commands = $self->command_map_hashref();
     my @cmd_names = sort keys %$commands;
 
     my $max_len = 0;

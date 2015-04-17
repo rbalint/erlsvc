@@ -1,8 +1,28 @@
-erlsvc (1.01-1) UNRELEASED; urgency=medium
+erlsvc (1.02-1) unstable; urgency=medium
 
-  * Start working on next upload
+  * New upstream release 1.02:
+    - Fix UTF-8 encoding in META.yml
+    - New Erlang release is "17" instead of "R17B"
+    - Allow numbers at the end of the Erlang release, like R16B03
+    - Update to use CLI::Framework 0.05 API
+    - Raise file descriptors' soft limit to hard limit when setting it to
+      hardcoded value fails
+    - Use packaged CLI::Framework
+  * Build-depend on erlang
+  * Create architecture specific binary package, since we ship beam files
+  * Update Erlang dependencies
+  * Add d/gbp.conf
+  * Replace README template with an empty README
+  * Migrate to DebHelper 9
+  * Update d/copyright
+  * Stop using Build-Depends-Indep
+  * Bump standards version
+  * Update package description
+  * Adopt the package
+  * Install beams to standard location
+  * Generate Erlang dependencies
 
- -- Balint Reczey <balint@balintreczey.hu>  Mon, 30 Mar 2015 18:48:12 +0200
+ -- Balint Reczey <balint@balintreczey.hu>  Fri, 17 Apr 2015 21:20:24 +0200
 
 erlsvc (1.00-1) unstable; urgency=low
 

@@ -1,0 +1,2 @@
+version=3
+https://github.com/rbalint/erlsvc/tags .*/v(\d[\d\.]+)\.tar\.gz

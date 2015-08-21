@@ -15,6 +15,9 @@ Build-Depends: debhelper (>= 9),
  erlang-dev (>= 1:1.15.b),
  perl (>= 5.6.10-12)
 Maintainer: Balint Reczey <balint@balintreczey.hu>
+Homepage: https://github.com/rbalint/erlsvc
+Vcs-Git: git://anonscm.debian.org/collab-maint/erlsvc.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/erlsvc.git
 Standards-Version: 3.9.6
 
 Package: erlsvc

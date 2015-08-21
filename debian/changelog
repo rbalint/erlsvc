@@ -1,6 +1,9 @@
-erlsvc (1.02-2) UNRELEASED; urgency=medium
+erlsvc (1.02-2) unstable; urgency=medium
 
-  *
+  * Add homepage and repository URLs
+  * Reorganize debian/copyright to keep Lintian happy
+  * Declare 3.0 (quilt) format
+  * Add watch file
 
  -- Balint Reczey <balint@balintreczey.hu>  Fri, 21 Aug 2015 15:00:19 +0200
 

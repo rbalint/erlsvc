@@ -1,45 +1,20 @@
 use strict;
 use warnings;
 use utf8;
+use ExtUtils::MakeMaker;
 
-my $share_dir = '../blib/lib/auto/share/dist/erlsvc';
+sub MY::postamble {
+    return <<'EOF';
+ERLS = $(wildcard *.erl)
+BEAM_PATH = ../blib/lib/auto/share/dist/erlsvc
+BEAMS = $(addprefix $(BEAM_PATH)/,$(ERLS:.erl=.beam))
 
-my @erl = glob '*.erl';
-my %beam = map {
-    my $e = $_;
-    my $b = $e;
-    $b =~ s/\.erl$/.beam/o;
-    $share_dir.'/'.$b => $e
-} @erl;
-my $beam_var = join(' ', keys %beam);
+all:: $(BEAMS)
 
-open(my $fh, '>', "Makefile") or die $!;
-
-print $fh <<"EOF";
-# Generated Makefile.
-
-BEAM = $beam_var
-
-all: \$(BEAM)
-
-test:
-
-clean:
-	-rm -f \$(BEAM)
-
-realclean: clean
-	-rm -f Makefile.old Makefile
-
-.PHONY: all test clean realclean
-EOF
-
-while (my ($beam, $erl) = each %beam) {
-    print $fh <<"EOF";
-
-$beam: $erl erlsvc.hrl
-	\@install -d $share_dir
-	erlc -o $share_dir $erl
+$(BEAM_PATH)/%.beam: %.erl erlsvc.hrl
+	@install -d $(BEAM_PATH)
+	erlc -o $(BEAM_PATH) $<
 EOF
 }
 
-close($fh);
+WriteMakefile();

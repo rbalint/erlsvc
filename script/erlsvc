@@ -35,7 +35,7 @@ This node may spawn a process on a running target node to execute the
 command. This way, it's possible to manage a node on a remote host.
 
 You can get a summary of the command line options and a list of
-available commands by issueing the command C<erlsvc help>.  To get a
+available commands by issuing the command C<erlsvc help>.  To get a
 help message for a specific command, use C<erlsvc help I<command>>.
 
 =head1 OPTIONS
